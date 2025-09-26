@@ -1,0 +1,26 @@
+[0.522s] Invoking command in '/home/ashwin/10x_task_ws/src/path_following': PYTHONPATH=/home/ashwin/10x_task_ws/build/path_following/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/path_following build --build-base /home/ashwin/10x_task_ws/build/path_following/build install --record /home/ashwin/10x_task_ws/build/path_following/install.log --single-version-externally-managed install_data
+[0.729s] running egg_info
+[0.729s] writing ../../build/path_following/path_following.egg-info/PKG-INFO
+[0.729s] writing dependency_links to ../../build/path_following/path_following.egg-info/dependency_links.txt
+[0.730s] writing entry points to ../../build/path_following/path_following.egg-info/entry_points.txt
+[0.730s] writing requirements to ../../build/path_following/path_following.egg-info/requires.txt
+[0.730s] writing top-level names to ../../build/path_following/path_following.egg-info/top_level.txt
+[0.731s] reading manifest file '../../build/path_following/path_following.egg-info/SOURCES.txt'
+[0.732s] writing manifest file '../../build/path_following/path_following.egg-info/SOURCES.txt'
+[0.732s] running build
+[0.732s] running build_py
+[0.732s] copying path_following/follower_node.py -> /home/ashwin/10x_task_ws/build/path_following/build/lib/path_following
+[0.732s] running install
+[0.732s] running install_lib
+[0.733s] copying /home/ashwin/10x_task_ws/build/path_following/build/lib/path_following/follower_node.py -> /home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages/path_following
+[0.733s] byte-compiling /home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages/path_following/follower_node.py to follower_node.cpython-310.pyc
+[0.734s] running install_data
+[0.735s] running install_egg_info
+[0.736s] removing '/home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages/path_following-0.0.0-py3.10.egg-info' (and everything under it)
+[0.736s] Copying ../../build/path_following/path_following.egg-info to /home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages/path_following-0.0.0-py3.10.egg-info
+[0.737s] running install_scripts
+[0.752s] Installing follower_node script to /home/ashwin/10x_task_ws/install/path_following/lib/path_following
+[0.752s] Installing path_smoother script to /home/ashwin/10x_task_ws/install/path_following/lib/path_following
+[0.752s] Installing trajectory_generator script to /home/ashwin/10x_task_ws/install/path_following/lib/path_following
+[0.752s] writing list of installed files to '/home/ashwin/10x_task_ws/build/path_following/install.log'
+[0.770s] Invoked command in '/home/ashwin/10x_task_ws/src/path_following' returned '0': PYTHONPATH=/home/ashwin/10x_task_ws/build/path_following/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ashwin/10x_task_ws/install/path_following/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/path_following build --build-base /home/ashwin/10x_task_ws/build/path_following/build install --record /home/ashwin/10x_task_ws/build/path_following/install.log --single-version-externally-managed install_data

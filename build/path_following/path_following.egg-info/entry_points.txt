@@ -1,0 +1,5 @@
+[console_scripts]
+follower_node = path_following.follower_node:main
+path_smoother = path_following.path_smoother_node:main
+trajectory_generator = path_following.trajectory_generator_node:main
+
