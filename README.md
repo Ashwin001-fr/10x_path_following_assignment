@@ -54,8 +54,8 @@ pip3 install matplotlib numpy scipy
 
 1. **Clone the repository:**
 ```bash
-git clone <your-repository-url>
-cd robotics-path-smoothing
+git clone <https://github.com/Ashwin001-fr/10x_path_following_assignment/tree/main>
+cd 10x_task_ws
 ```
 
 2. **Build the workspace:**
@@ -64,7 +64,7 @@ cd robotics-path-smoothing
 source /opt/ros/humble/setup.bash
 
 # Build the project
-colcon build --packages-up-to path_smoothing_controller
+colcon build 
 
 # Source the workspace
 source install/setup.bash
@@ -82,47 +82,26 @@ export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$(pwd)/src/models
 
 1. **Launch the simulation:**
 ```bash
-ros2 launch path_smoothing_controller simulation.launch.py
+ros2 launch path_following run_navigation.launch.py
 ```
 
-2. **Set waypoints** (in another terminal):
-```bash
-# Example waypoints
-ros2 topic pub /waypoints geometry_msgs/msg/PoseArray '{
-  poses: [
-    {position: {x: 0.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}},
-    {position: {x: 2.0, y: 1.0, z: 0.0}, orientation: {w: 1.0}},
-    {position: {x: 4.0, y: 2.0, z: 0.0}, orientation: {w: 1.0}},
-    {position: {x: 6.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}
-  ]
-}' --once
-```
-
-3. **Start trajectory execution:**
-```bash
-ros2 service call /execute_trajectory std_srvs/srv/Empty
-```
-
-### With Obstacle Avoidance (Extra Credit)
-
-```bash
-ros2 launch path_smoothing_controller simulation_with_obstacles.launch.py
-```
 
 ## Algorithm Design Choices
 
 ### 1. Path Smoothing Algorithm
 
-**Chosen Approach: Cubic B-Spline Interpolation**
+**Chosen Approach: Catmull-Rom Spline Interpolation**
 
-- **Rationale**: Provides C² continuity, ensuring smooth acceleration profiles
+- **Rationale**: Provides C¹ continuity with guaranteed passage through all waypoints
 - **Advantages**: 
-  - Computationally efficient
-  - Local control (moving one waypoint affects only nearby segments)
-  - Natural smoothing without excessive oscillation
-- **Implementation**: Custom B-spline implementation with configurable smoothing parameters
+  - Interpolating spline (passes exactly through control points)
+  - Local control (each segment depends only on 4 nearby points)
+  - Natural tangent calculation using neighboring points
+  - No need for additional control point specification
+- **Implementation**: Catmull-Rom spline with configurable tension parameter and uniform parameterization
 
 **Alternative Considered**: Bezier curves - rejected due to global control issues
+
 
 ### 2. Trajectory Generation
 
@@ -144,11 +123,6 @@ ros2 launch path_smoothing_controller simulation_with_obstacles.launch.py
   - Maximum angular velocity: 1.0 rad/s
   - Position tolerance: 0.1m
 
-**Control Law**:
-```cpp
-double curvature = 2 * sin(alpha) / lookahead_distance;
-double angular_velocity = linear_velocity * curvature;
-```
 
 ## Code Architecture Decisions
 
@@ -166,33 +140,6 @@ double angular_velocity = linear_velocity * curvature;
 - **Exception Safety**: All algorithms implement strong exception guarantees
 - **Graceful Degradation**: System continues operation even with partial failures
 - **Comprehensive Logging**: Detailed logging for debugging and monitoring
-
-## Testing Strategy
-
-### Unit Tests
-- **Path Smoother**: Tests continuity, smoothness metrics, and edge cases
-- **Trajectory Generator**: Validates time parameterization and velocity constraints
-- **Controller**: Tests tracking accuracy and stability
-
-### Integration Tests
-- **End-to-End**: Complete waypoint-to-execution pipeline
-- **Performance Tests**: Timing and resource usage validation
-
-### Run Tests
-```bash
-# Run all tests
-colcon test --packages-select path_smoothing_controller
-
-# View test results
-colcon test-result --all
-```
-
-## Performance Metrics
-
-- **Path Smoothness**: Average curvature < 0.1 rad/m
-- **Tracking Accuracy**: RMS error < 0.05m
-- **Computational Performance**: Real-time execution at 50Hz
-- **Memory Usage**: < 50MB total
 
 ## Extension to Real Robot
 
@@ -215,18 +162,9 @@ colcon test-result --all
 1. **Hardware Abstraction Layer**: Replace simulation interface with hardware drivers
 2. **Sensor Fusion**: Implement Extended Kalman Filter for state estimation
 3. **Robust Control**: Add adaptive control for varying terrain and disturbances
+   
 
-### Deployment Strategy
-```bash
-# Cross-compilation for embedded systems
-colcon build --cmake-args -DCMAKE_TOOLCHAIN_FILE=path/to/toolchain.cmake
-
-# Container deployment
-docker build -t robot-controller .
-docker run --privileged --network host robot-controller
-```
-
-## Obstacle Avoidance Extension (Extra Credit)
+## Obstacle Avoidance Extension 
 
 ### Dynamic Window Approach (DWA)
 - **Real-time Planning**: Generates collision-free velocities in real-time
@@ -241,20 +179,8 @@ docker run --privileged --network host robot-controller
 ## AI Tools Utilized
 
 ### Development Workflow
-1. **GitHub Copilot**: Code completion and algorithm implementation assistance
-2. **ChatGPT/Claude**: Algorithm research and debugging support  
-3. **Cursor AI**: Code refactoring and optimization suggestions
-
-### Specific Applications
-- **Algorithm Design**: Used AI to explore different smoothing algorithms
-- **Code Review**: AI-assisted code quality improvements
-- **Documentation**: AI-generated initial documentation templates
-- **Testing**: AI-suggested test cases and edge conditions
-
-### Best Practices Applied
-- **Human Oversight**: All AI-generated code thoroughly reviewed and tested
-- **Incremental Development**: AI used for specific components, not entire system
-- **Learning Integration**: Used AI explanations to understand complex concepts
+1. **ChatGPT/Claude**: Algorithm research and code development and debugging support
+   
 
 ## Troubleshooting
 
@@ -275,9 +201,6 @@ ros2 topic list | grep cmd_vel
 ros2 topic echo /cmd_vel
 ```
 
-3. **Path not smooth**:
-   - Adjust smoothing parameters in `config/robot_params.yaml`
-   - Increase number of control points
 
 ## Demo Video
 
@@ -286,29 +209,10 @@ ros2 topic echo /cmd_vel
 - Robot following generated trajectory
 - Performance metrics and plots
 
-## Results and Performance
-
-### Quantitative Results
-- **Tracking Error**: Mean absolute error of 0.03m
-- **Smoothness Metric**: 95% reduction in path curvature variation
-- **Execution Time**: Real-time performance with 2ms average computation time
-
-### Qualitative Observations
-- Smooth, natural robot motion
-- Robust performance across different waypoint configurations
-- Effective obstacle avoidance without excessive path deviation
-
-## Future Improvements
-
-1. **Advanced Controllers**: Implementation of Model Predictive Control (MPC)
-2. **Multi-Robot Coordination**: Extension to multi-robot scenarios
-3. **Machine Learning Integration**: Learning-based path optimization
-4. **Real-world Validation**: Testing on physical robot platforms
 
 ## Authors
 
-[Your Name] - [Your Email]
-[Course/Institution Information]
+[Ashwin Prem] - [ashwinprem2020@gmail.com]
 
 ## License
 
