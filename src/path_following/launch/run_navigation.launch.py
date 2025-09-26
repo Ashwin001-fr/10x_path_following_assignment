@@ -35,7 +35,7 @@ def generate_launch_description():
             output='screen'
         ),
 
-        # Follower Node (with obstacle avoidance)
+        # Follower Node 
         Node(
             package='path_following',
             executable='follower_node',
