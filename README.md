@@ -11,7 +11,6 @@ This project implements a comprehensive path smoothing algorithm and trajectory 
 - **Trajectory Tracking Controller**: Implements a robust controller for accurate path following
 - **ROS2 Integration**: Full ROS2 implementation with proper node architecture
 - **Simulation Environment**: Complete simulation setup with visualization
-- **Obstacle Avoidance** (Extra Credit): Dynamic obstacle detection and avoidance
 
 ## System Architecture
 
@@ -25,7 +24,7 @@ This project implements a comprehensive path smoothing algorithm and trajectory 
 |   ├── launch/
 │       ├── run_navigation.launch.py          # Main launch file
 |   ├── config/
-│       └── nav_config.rviz            # Robot-specific parameters
+│       └── nav_config.rviz            # rviz parameters
 ```
 
 ## Prerequisites
@@ -135,11 +134,7 @@ ros2 launch path_following run_navigation.launch.py
 - **Node Composition**: Used ROS2 component nodes for better performance
 - **QoS Profiles**: Configured appropriate QoS for real-time control
 - **Lifecycle Management**: Implemented managed nodes for better state control
-
-### 3. Error Handling
-- **Exception Safety**: All algorithms implement strong exception guarantees
-- **Graceful Degradation**: System continues operation even with partial failures
-- **Comprehensive Logging**: Detailed logging for debugging and monitoring
+  
 
 ## Extension to Real Robot
 
@@ -191,7 +186,7 @@ ros2 launch path_following run_navigation.launch.py
 # Check Gazebo installation
 gazebo --version
 # Reinstall if necessary
-sudo apt install gazebo11
+sudo apt install gazebo
 ```
 
 2. **Robot not moving**:
@@ -214,12 +209,7 @@ ros2 topic echo /cmd_vel
 
 [Ashwin Prem] - [ashwinprem2020@gmail.com]
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-
-- Course instructors and TAs for guidance
 - Open-source robotics community for ROS2 packages
 - AI tool developers for enhancing development workflow
