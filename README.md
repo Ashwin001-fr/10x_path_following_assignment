@@ -199,7 +199,7 @@ ros2 topic echo /cmd_vel
 
 ## Demo Video
 
-[Link to demonstration video showing:]
+Link: https://drive.google.com/file/d/15BJW6kxmlNWQR6PDT7_5JGcYHXFMQdi7/view?usp=sharing
 - Waypoint input and path smoothing visualization
 - Robot following generated trajectory
 - Performance metrics and plots
